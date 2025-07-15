@@ -11,6 +11,7 @@
             padding: 0;
             font-family: 'Montserrat', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -30,7 +31,7 @@
             animation: fadeIn 2s ease-in-out;
             max-width: 800px;
             width: 90%;
-            position: relative;
+            margin-bottom: 30px;
             z-index: 1;
         }
 
@@ -38,7 +39,7 @@
             font-family: 'Great Vibes', cursive;
             font-size: 4.5em;
             margin-bottom: 20px;
-            color: #ffee93; /* Daha canlı bir renk */
+            color: #ffee93;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
             animation: slideInDown 1.5s ease-out;
         }
@@ -56,6 +57,73 @@
             animation: bounce 1s infinite alternate;
         }
 
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            background-color: #fdd835; /* Pasta rengi */
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 1.5s ease-out;
+        }
+
+        .cake-layer {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 50px;
+            background-color: #e65100; /* Pasta alt katmanı rengi */
+            border-radius: 5px;
+        }
+
+        .candle {
+            position: absolute;
+            top: -30px;
+            left: calc(50% - 5px); /* Ortalamak için */
+            width: 10px;
+            height: 40px;
+            background-color: #bdbdbd; /* Mum rengi */
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flame {
+            width: 8px;
+            height: 15px;
+            background-color: #ffcdd2; /* Alev rengi */
+            border-radius: 50%;
+            margin-top: 5px;
+            animation: flicker 0.3s infinite alternate;
+        }
+
+        .flame.off {
+            display: none; /* Mum söndüğünde alevi gizle */
+        }
+
+        .button-container {
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .blow-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ffee93; /* Tuş rengi */
+            color: #37474f; /* Tuş yazısı rengi */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .blow-button:hover {
+            background-color: #f0f4c3;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -66,9 +134,19 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        @keyframes slideInUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         @keyframes bounce {
             from { transform: translateY(0); }
             to { transform: translateY(-15px); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.1); }
         }
 
         /* Confetti efekti */
@@ -88,8 +166,8 @@
         .confetti:nth-child(5n) { background-color: #9c27b0; /* Mor */ }
 
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+            0% { transform: translateY(-15vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
         }
 
         /* Daha fazla kontrol için */
@@ -143,5 +221,25 @@
         <p>Canım Ablam Aysel,<br>30 yaşın kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
         <div class="emoji">🎂🎁🎈</div>
     </div>
+
+    <div class="cake-container">
+        <div class="cake-layer"></div>
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="blow-button" onclick="blowCandle()">Pastayı Söndür</button>
+    </div>
+
+    <script>
+        function blowCandle() {
+            const flame = document.querySelector('.flame');
+            flame.classList.add('off'); // Alev elementine 'off' sınıfını ekleyerek gizler
+            // İsteğe bağlı olarak buraya mum söndüğünde çalacak bir ses efekti eklenebilir.
+            // Örneğin: new Audio('ses/mum_sondurme.mp3').play();
+        }
+    </script>
 </body>
 </html>
