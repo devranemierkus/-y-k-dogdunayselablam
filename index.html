@@ -22,6 +22,7 @@
             position: relative;
         }
 
+        /* Başlangıç Mesajı ve Buton Konteyneri */
         .initial-message-container {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 40px 60px;
@@ -68,8 +69,9 @@
             transform: translateY(-3px);
         }
 
+        /* Kutlama İçeriği (Butona Tıklanınca Görünenler) */
         .celebration-content {
-            display: none;
+            display: none; /* Başlangıçta gizli */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -77,7 +79,7 @@
         }
 
         .celebration-content.visible {
-            display: flex;
+            display: flex; /* Görünür olduğunda esnek kutu olarak göster */
         }
 
         h1 {
@@ -86,119 +88,83 @@
             margin-bottom: 20px;
             color: #ffee93;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-        }
-
-        /* --- Yeni Pasta Tasarımı --- */
-        .cake-wrapper {
-            position: relative;
-            width: 250px; /* Pastanın toplam genişliği */
-            height: 250px; /* Pastanın toplam yüksekliği */
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(-50px);
             transition: opacity 1s ease-out, transform 1s ease-out;
-            z-index: 1;
-            margin-top: 30px; /* Başlıktan biraz boşluk bırakalım */
         }
 
-        .cake-wrapper.visible {
+        h1.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .cake-base {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 220px;
-            height: 60px;
-            background-color: #b27a6f; /* Alt katman rengi */
-            border-radius: 100px / 30px; /* Oval alt kısım */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            z-index: 10;
+        /* Pasta Konteyneri */
+        .cake-container {
+            position: relative;
+            width: 300px; /* Pastayı büyüttük */
+            height: 300px; /* Pastayı büyüttük */
+            margin-top: 30px;
+            cursor: pointer; /* Tıklanabilir olduğunu belirtmek için */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            z-index: 1;
         }
 
-        .cake-middle {
-            position: absolute;
-            bottom: 40px; /* Alt katmanın üstünde */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 80px;
-            background-color: #ffb6c1; /* Pembe renk */
-            border-radius: 90px / 40px; /* Oval orta kısım */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            z-index: 11;
+        .cake-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .cake-top {
-            position: absolute;
-            top: 50px; /* En üstte */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 50px;
-            background-color: #fce4ec; /* Açık pembe/beyaz krema rengi */
-            border-radius: 70px / 25px; /* Oval üst kısım */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            z-index: 12;
-        }
-
-        .icing {
-            position: absolute;
-            top: 45px; /* Pastanın en üstünün hemen altında */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px; /* Pastanın üstünden biraz daha geniş */
-            height: 15px;
-            background-color: #ffe082; /* Sarımsı krema */
-            border-radius: 75px / 7px;
-            z-index: 13;
+        .cake-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Resmi konteynere sığdır */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)); /* Gölgelendirme */
         }
 
         .candle {
             position: absolute;
-            top: 25px; /* Pastanın en üstünün daha da üstünde */
+            top: 25%; /* Pastanın üst kısmına göre ayarla */
             left: 50%;
             transform: translateX(-50%);
-            width: 8px;
-            height: 40px;
-            background-color: #ff6e40; /* Kırmızımsı mum */
-            border-radius: 4px;
+            width: 10px;
+            height: 50px;
+            background-color: #ff6e40; /* Mum rengi */
+            border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            z-index: 14;
+            z-index: 10; /* Pastanın üzerinde olması için */
         }
 
         .flame {
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 12px;
-            height: 20px;
+            width: 15px; /* Alevi büyüttük */
+            height: 25px; /* Alevi büyüttük */
             background-color: #ffd700; /* Altın sarısı alev */
             border-radius: 50%;
-            box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.7),
-                        0 0 20px 10px rgba(255, 215, 0, 0.3); /* Parlaklık efekti */
+            box-shadow: 0 0 12px 6px rgba(255, 215, 0, 0.7),
+                        0 0 25px 12px rgba(255, 215, 0, 0.3); /* Parlaklık efekti */
             animation: flicker 0.2s infinite alternate;
         }
 
         .flame.off {
-            opacity: 0; /* Mumu söndüğünde alevi gizle */
+            opacity: 0; /* Mum söndüğünde alevi gizle */
             transition: opacity 0.3s ease-out;
         }
 
-        /* --- Eski koddan devam --- */
-
+        /* Final Mesajı */
         .final-message {
             font-family: 'Great Vibes', cursive;
-            font-size: 5em;
+            font-size: 4.5em; /* Daha büyük yaptık */
             color: #ffee93;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 1s ease-in, transform 1s ease-in;
-            margin-top: 30px;
+            margin-top: 40px; /* Pastadan sonraki boşluk */
             z-index: 2;
         }
 
@@ -207,12 +173,12 @@
             transform: scale(1);
         }
 
-        /* Confetti efekti */
+        /* Confetti Efekti */
         .confetti {
             position: absolute;
             width: 10px;
             height: 10px;
-            background-color: #ffeb3b; /* Sarı */
+            background-color: #ffeb3b;
             border-radius: 50%;
             opacity: 0;
             animation: fall 5s linear infinite;
@@ -240,8 +206,8 @@
     </style>
 </head>
 <body>
-    <audio id="blowSound" src="https://www.soundjay.com/buttons/sounds/button-20.mp3" preload="auto"></audio>
-    <audio id="clapSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+    <audio id="blowSound" src="https://www.soundjay.com/misc/sounds/blow-flame-1.mp3" preload="auto"></audio>
+    <audio id="clapSound" src="https://www.soundjay.com/human/sounds/clap-5.mp3" preload="auto"></audio>
 
     <div class="confetti confetti-1"></div>
     <div class="confetti confetti-2"></div>
@@ -270,34 +236,30 @@
     </div>
 
     <div class="celebration-content" id="celebrationContent">
-        <h1 id="ayseAblamTitle" style="opacity: 0; transform: translateY(-50px); transition: opacity 1s ease-out, transform 1s ease-out;">Aysel Ablam</h1>
+        <h1 id="ayseAblamTitle">Aysel Ablam</h1>
         
-        <div class="cake-wrapper" id="cakeWrapper">
-            <div class="cake-base"></div>
-            <div class="cake-middle"></div>
-            <div class="cake-top"></div>
-            <div class="icing"></div>
+        <div class="cake-container" id="cakeContainer" onclick="blowCandle()">
+            <img src="https://i.ibb.co/L5hY8q2/birthday-cake-png.png" alt="Doğum Günü Pastası" class="cake-image">
+            
             <div class="candle">
                 <div class="flame"></div>
             </div>
         </div>
 
         <div class="final-message" id="finalMessage">
-            İyi ki Doğdun Aysel Ablam!
+            Pastayı Üfledik, İyi ki Doğdun Aysel Ablam!
         </div>
     </div>
 
     <script>
+        let hasBlown = false; // Mumun daha önce üflenip üflenmediğini takip et
+
         function startBirthdayCelebration() {
             const initialMessageContainer = document.getElementById('initialMessageContainer');
             const celebrationContent = document.getElementById('celebrationContent');
             const ayseAblamTitle = document.getElementById('ayseAblamTitle');
-            const cakeWrapper = document.getElementById('cakeWrapper'); // Pasta kabı
-            const flame = document.querySelector('.flame');
-            const finalMessage = document.getElementById('finalMessage');
-            const blowSound = document.getElementById('blowSound');
-            const clapSound = document.getElementById('clapSound');
-
+            const cakeContainer = document.getElementById('cakeContainer');
+            
             // Başlangıç mesajını ve butonu gizle
             initialMessageContainer.classList.add('hidden');
 
@@ -306,26 +268,36 @@
 
             // "Aysel Ablam" başlığını animasyonlu bir şekilde göster
             setTimeout(() => {
-                ayseAblamTitle.style.opacity = '1';
-                ayseAblamTitle.style.transform = 'translateY(0)';
+                ayseAblamTitle.classList.add('visible');
             }, 500); // Yarım saniye sonra başlık gelsin
 
             // Pastayı animasyonlu bir şekilde göster
             setTimeout(() => {
-                cakeWrapper.classList.add('visible');
+                cakeContainer.classList.add('visible');
             }, 1500); // Başlıktan 1 saniye sonra pasta gelsin (toplam 1.5 sn)
+        }
 
-            // Mum üfleme, alkış ve son mesaj
+        function blowCandle() {
+            if (hasBlown) return; // Zaten üflenmişse tekrar çalıştırma
+
+            const flame = document.querySelector('.flame');
+            const blowSound = document.getElementById('blowSound');
+            const clapSound = document.getElementById('clapSound');
+            const finalMessage = document.getElementById('finalMessage');
+
+            hasBlown = true; // Mumu üfledi olarak işaretle
+
+            blowSound.play(); // Üfleme sesini çal
+
+            // Mumun sönme efekti
+            flame.classList.add('off'); 
+
             setTimeout(() => {
-                blowSound.play(); // Üfleme sesini çal
-                flame.classList.add('off'); // Mumu söndür (opacity ile)
-
-                setTimeout(() => {
-                    clapSound.play(); // Alkış sesini çal
-                    finalMessage.classList.add('visible'); // İyi ki Doğdun mesajını göster
-                }, 1000); // Üfleme sesinden 1 saniye sonra alkış ve mesaj
-            }, 4000); // Pastanın görünmesinden 2.5 saniye sonra (toplam 4 sn) mum üfleme başlasın
+                clapSound.play(); // Alkış sesini çal
+                finalMessage.classList.add('visible'); // İyi ki Doğdun mesajını göster
+            }, 1000); // Üfleme sesinden 1 saniye sonra alkış ve mesaj
         }
     </script>
 </body>
 </html>
+ a
