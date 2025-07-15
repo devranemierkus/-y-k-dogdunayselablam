@@ -1,379 +1,297 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aysel Ablama Doğum Günü Kutlaması</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(to right top, #a8dadc, #f4a261, #e76f51);
-            color: #fff;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Başlangıç Mesajı ve Başlat Butonu Konteyneri */
-        .initial-message-container {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            max-width: 800px;
-            width: 90%;
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            opacity: 1;
-            transform: translateY(0);
-            z-index: 2;
-            position: relative;
-        }
-
-        .initial-message-container.hidden {
-            opacity: 0;
-            transform: translateY(-50px);
-            pointer-events: none;
-        }
-
-        .initial-message-container p {
-            font-size: 1.6em;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            animation: fadeIn 2.5s ease-in-out;
-        }
-
-        .start-button {
-            padding: 18px 40px;
-            font-size: 1.5em;
-            background-color: #ffee93;
-            color: #37474f;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-bottom: 30px;
-        }
-
-        .start-button:hover {
-            background-color: #f0f4c3;
-            transform: translateY(-3px);
-        }
-
-        /* Kutlama İçeriği (Butona Tıklanınca Görünenler) */
-        .celebration-content {
-            display: none; /* Başlangıçta gizli */
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Tam ekran yüksekliği kaplaması için */
-            width: 100%;
-            position: absolute; /* Üstteki öğe gizlenince yerine geçsin */
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .celebration-content.visible {
-            display: flex;
-        }
-
-        /* En Üstteki "Pastayı Üfle" Butonu */
-        .blow-cake-button-top {
-            padding: 15px 30px;
-            font-size: 1.2em;
-            background-color: #ffe082;
-            color: #37474f;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-bottom: 40px; /* Pastadan biraz boşluk */
-            z-index: 3;
-            animation: fadeIn 2s ease-in-out; /* Butonun belirme animasyonu */
-        }
-
-        .blow-cake-button-top:hover {
-            background-color: #fff8e1;
-            transform: translateY(-2px);
-        }
-
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4.5em;
-            margin-bottom: 20px;
-            color: #ffee93;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transform: translateY(-50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            position: relative;
-            z-index: 3;
-        }
-
-        h1.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Pasta Konteyneri */
-        .cake-container {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end; /* Katmanları alttan yukarıya hizala */
-            margin-top: -30px; /* Üstteki butonla dikey hizayı ayarla */
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            z-index: 1;
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
-            border-radius: 10px; /* Hafif yuvarlak köşeler */
-            padding-top: 50px; /* Mum için üstte boşluk */
-        }
-        .cake-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Pasta Katmanları (Silindir şeklinde) */
-        .cake-layer {
-            position: relative;
-            background-color: #ff91a4; /* Orta ton pembe */
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* İç gölge */
-            border-radius: 50% / 10%; /* Üst ve alt oval kısmı verir */
-            margin-top: -20px; /* Katmanları üst üste bindir */
-            border: 3px solid #fff; /* Beyaz kenarlık */
-            display: flex; /* İçine mum dikebilmek için */
-            justify-content: center;
-            align-items: center;
-        }
-        .cake-layer:nth-child(1) { /* En alt katman */
-            width: 220px;
-            height: 90px;
-            background-color: #d88094; /* Koyu pembe */
-            z-index: 3;
-        }
-        .cake-layer:nth-child(2) { /* Orta katman */
-            width: 170px;
-            height: 70px;
-            background-color: #ff91a4; /* Orta pembe */
-            z-index: 4;
-        }
-        .cake-layer:nth-child(3) { /* En üst katman */
-            width: 120px;
-            height: 50px;
-            background-color: #a8dadc; /* Açık mavi */
-            z-index: 5;
-        }
-        /* Krema etkisi için :after pseudo-element */
-        .cake-layer:after {
-            content: '';
-            position: absolute;
-            top: -5px; /* Biraz yukarıda olsun */
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background-color: #fff; /* Beyaz krema */
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 6;
-        }
-
-
-        /* Mum */
-        .candle {
-            position: absolute;
-            top: 15px; /* En üst katmanın üstünde konumlandır */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 40px;
-            background-color: #ff6e40; /* Mum rengi */
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            z-index: 7; /* Mumun en üstte olması için */
-        }
-
-        .flame {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 20px;
-            background-color: #ffd700; /* Altın sarısı alev */
-            border-radius: 50%;
-            box-shadow: 0 0 12px 6px rgba(255, 215, 0, 0.7),
-                        0 0 25px 12px rgba(255, 215, 0, 0.3);
-            animation: flicker 0.2s infinite alternate;
-        }
-
-        .flame.off {
-            opacity: 0;
-            transition: opacity 0.3s ease-out; /* Mumun yumuşakça sönmesi için */
-        }
-
-        /* Final Mesajı */
-        .final-message {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4.0em; /* Okunaklı olması için */
-            line-height: 1.2;
-            color: #ffee93;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Gölgeyi artırarak okunurluğu artırdık */
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 1s ease-in, transform 1s ease-in;
-            margin-top: 40px;
-            z-index: 2;
-        }
-
-        .final-message.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Confetti Efekti */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffeb3b;
-            border-radius: 50%;
-            opacity: 0;
-            animation: fall 5s linear infinite;
-        }
-
-        .confetti:nth-child(2n) { background-color: #e91e63; }
-        .confetti:nth-child(3n) { background-color: #00bcd4; }
-        .confetti:nth-child(4n) { background-color: #4caf50; }
-        .confetti:nth-child(5n) { background-color: #9c27b0; }
-
-        @keyframes fall {
-            0% { transform: translateY(-15vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
-        }
-
-        @keyframes flicker {
-            0% { opacity: 1; transform: translateX(-50%) scale(1); }
-            100% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aysel Ablama Doğum Günü Kutlaması</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* --- Stil kısmı aynı, sadece pastanın görünümünü iyileştirdik --- */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right top, #a8dadc, #f4a261, #e76f51);
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .initial-message-container {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      max-width: 800px;
+      width: 90%;
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 2;
+      position: relative;
+    }
+    .initial-message-container.hidden {
+      opacity: 0;
+      transform: translateY(-50px);
+      pointer-events: none;
+    }
+    .initial-message-container p {
+      font-size: 1.6em;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+    .start-button {
+      padding: 18px 40px;
+      font-size: 1.5em;
+      background-color: #ffee93;
+      color: #37474f;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-bottom: 30px;
+    }
+    .start-button:hover {
+      background-color: #f0f4c3;
+      transform: translateY(-3px);
+    }
+    .celebration-content {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .celebration-content.visible {
+      display: flex;
+    }
+    .blow-cake-button-top {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background-color: #ffe082;
+      color: #37474f;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-bottom: 40px;
+      z-index: 3;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .blow-cake-button-top:hover {
+      background-color: #fff8e1;
+      transform: translateY(-2px);
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4.5em;
+      margin-bottom: 20px;
+      color: #ffee93;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(-50px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      position: relative;
+      z-index: 3;
+    }
+    h1.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .cake-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: -30px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      z-index: 1;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
+      padding-top: 50px;
+    }
+    .cake-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .cake-layer {
+      position: relative;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+      border-radius: 50% / 10%;
+      margin-top: -20px;
+      border: 3px solid #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cake-layer:nth-child(1) {
+      width: 220px;
+      height: 90px;
+      background-color: #b56576;
+    }
+    .cake-layer:nth-child(2) {
+      width: 170px;
+      height: 70px;
+      background-color: #ffb4a2;
+    }
+    .cake-layer:nth-child(3) {
+      width: 120px;
+      height: 50px;
+      background-color: #fcd5ce;
+    }
+    .cake-layer:after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(to right, #fff, #fce4ec, #fff);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 6;
+    }
+    .candle {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 40px;
+      background: linear-gradient(to bottom, #ff8a65, #d84315);
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      z-index: 7;
+    }
+    .flame {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 20px;
+      background: radial-gradient(circle, #fff176 40%, #ffa000 60%);
+      border-radius: 50%;
+      box-shadow: 0 0 12px 6px rgba(255, 215, 0, 0.7),
+                  0 0 25px 12px rgba(255, 215, 0, 0.3);
+      animation: flicker 0.2s infinite alternate;
+    }
+    .flame.off {
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+    .final-message {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4.0em;
+      line-height: 1.2;
+      color: #ffee93;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease-in, transform 1s ease-in;
+      margin-top: 40px;
+      z-index: 2;
+    }
+    .final-message.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    @keyframes flicker {
+      0% { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <audio id="blowSound" src="https://www.soundjay.com/misc/sounds/blow-flame-1.mp3" preload="auto"></audio>
-    <audio id="clapSound" src="https://www.soundjay.com/human/sounds/clap-5.mp3" preload="auto"></audio>
+  <!-- Ses dosyaları -->
+  <audio id="blowSound" src="https://www.soundjay.com/misc/sounds/blow-flame-1.mp3"></audio>
+  <audio id="clapSound" src="https://www.soundjay.com/human/sounds/clap-5.mp3"></audio>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/05/23/audio_6f9b3a5fc8.mp3" autoplay loop></audio>
 
-    <div class="confetti confetti-1"></div>
-    <div class="confetti confetti-2"></div>
-    <div class="confetti confetti-3"></div>
-    <div class="confetti confetti-4"></div>
-    <div class="confetti confetti-5"></div>
-    <div class="confetti confetti-6"></div>
-    <div class="confetti confetti-7"></div>
-    <div class="confetti confetti-8"></div>
-    <div class="confetti confetti-9"></div>
-    <div class="confetti confetti-10"></div>
-    <div class="confetti confetti-11"></div>
-    <div class="confetti confetti-12"></div>
-    <div class="confetti confetti-13"></div>
-    <div class="confetti confetti-14"></div>
-    <div class="confetti confetti-15"></div>
-    <div class="confetti confetti-16"></div>
-    <div class="confetti confetti-17"></div>
-    <div class="confetti confetti-18"></div>
-    <div class="confetti confetti-19"></div>
-    <div class="confetti confetti-20"></div>
+  <!-- Açılış Mesajı -->
+  <div class="initial-message-container" id="initialMessageContainer">
+    <button class="start-button" onclick="startBirthdayCelebration()">Başlat (Buna Tıkla)</button>
+    <p>Canım Ablam Aysel, Doğum Günün Kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
+  </div>
 
-    <div class="initial-message-container" id="initialMessageContainer">
-        <button class="start-button" onclick="startBirthdayCelebration()">Başlat (Buna Tıkla)</button>
-        <p>Canım Ablam Aysel,<br>Kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
+  <!-- Kutlama İçeriği -->
+  <div class="celebration-content" id="celebrationContent">
+    <button class="blow-cake-button-top" id="blowCakeButtonTop" onclick="blowCandle()">Pastayı Üfle</button>
+    <h1 id="ayseAblamTitle">Aysel Ablam</h1>
+    <div class="cake-container" id="cakeContainer">
+      <div class="cake-layer"></div>
+      <div class="cake-layer"></div>
+      <div class="cake-layer"></div>
+      <div class="candle">
+        <div class="flame"></div>
+      </div>
     </div>
+    <div class="final-message" id="finalMessage">Pastayı Üfledik, İyi ki Doğdun Aysel Ablam!</div>
+  </div>
 
-    <div class="celebration-content" id="celebrationContent">
-        <button class="blow-cake-button-top" id="blowCakeButtonTop" onclick="blowCandle()">Pastayı Üfle</button>
-        
-        <h1 id="ayseAblamTitle">Aysel Ablam</h1>
-        
-        <div class="cake-container" id="cakeContainer">
-            <div class="cake-layer"></div>
-            <div class="cake-layer"></div>
-            <div class="cake-layer"></div>
-            <div class="candle">
-                <div class="flame"></div>
-            </div>
-        </div>
+  <!-- JavaScript -->
+  <script>
+    let hasBlown = false;
+    const bgMusic = document.getElementById('bgMusic');
+    const blowSound = document.getElementById('blowSound');
+    const clapSound = document.getElementById('clapSound');
 
-        <div class="final-message" id="finalMessage">
-            Pastayı Üfledik, İyi ki Doğdun Aysel Ablam!
-        </div>
-    </div>
+    function startBirthdayCelebration() {
+      document.getElementById('initialMessageContainer').classList.add('hidden');
+      document.getElementById('celebrationContent').classList.add('visible');
 
-    <script>
-        let hasBlown = false; // Mumun daha önce üflenip üflenmediğini takip et
+      setTimeout(() => {
+        document.getElementById('ayseAblamTitle').classList.add('visible');
+      }, 500);
 
-        function startBirthdayCelebration() {
-            const initialMessageContainer = document.getElementById('initialMessageContainer');
-            const celebrationContent = document.getElementById('celebrationContent');
-            const ayseAblamTitle = document.getElementById('ayseAblamTitle');
-            const cakeContainer = document.getElementById('cakeContainer');
-            const blowCakeButtonTop = document.getElementById('blowCakeButtonTop');
-            
-            // Başlangıç mesajını ve butonu gizle
-            initialMessageContainer.classList.add('hidden');
+      setTimeout(() => {
+        document.getElementById('cakeContainer').classList.add('visible');
+      }, 1500);
+    }
 
-            // Kutlama içeriğini görünür yap
-            celebrationContent.classList.add('visible');
+    function blowCandle() {
+      if (hasBlown) return;
+      hasBlown = true;
 
-            // "Aysel Ablam" başlığını animasyonlu bir şekilde göster
-            setTimeout(() => {
-                ayseAblamTitle.classList.add('visible');
-            }, 500); // Yarım saniye sonra başlık gelsin
+      const flame = document.querySelector('.flame');
+      const finalMessage = document.getElementById('finalMessage');
 
-            // Pasta ve üstteki "Pastayı Üfle" butonunu animasyonlu bir şekilde göster
-            setTimeout(() => {
-                cakeContainer.classList.add('visible');
-                blowCakeButtonTop.style.display = 'block'; // Butonu görünür yap
-            }, 1500); // Başlıktan 1 saniye sonra pasta ve buton gelsin (toplam 1.5 sn)
-        }
+      flame.classList.add('off');
+      bgMusic.pause();
+      blowSound.play().catch(() => {});
 
-        function blowCandle() {
-            if (hasBlown) return; // Zaten üflenmişse tekrar çalıştırma
+      setTimeout(() => {
+        clapSound.play().catch(() => {});
+        finalMessage.classList.add('visible');
+      }, 1000);
 
-            const flame = document.querySelector('.flame');
-            const blowSound = document.getElementById('blowSound');
-            const clapSound = document.getElementById('clapSound');
-            const finalMessage = document.getElementById('finalMessage');
-
-            hasBlown = true; // Mumu üfledi olarak işaretle
-
-            blowSound.play().catch(e => console.error("Üfleme sesi çalarken hata:", e)); // Sesi çal ve hata yakala
-
-            // Mumun sönme efekti (opacity ile yumuşak geçiş)
-            flame.classList.add('off'); 
-
-            setTimeout(() => {
-                clapSound.play().catch(e => console.error("Alkış sesi çalarken hata:", e)); // Sesi çal ve hata yakala
-                finalMessage.classList.add('visible'); // İyi ki Doğdun mesajını göster
-            }, 1000); // Üfleme sesinden 1 saniye sonra alkış ve mesaj
-        }
-    </script>
+      clapSound.onended = () => {
+        bgMusic.play().catch(() => {});
+      };
+    }
+  </script>
 </body>
-</html>
+    </html>
