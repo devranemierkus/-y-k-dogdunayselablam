@@ -6,7 +6,6 @@
   <title>Aysel Ablama Doğum Günü Kutlaması</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* --- Stil kısmı aynı, sadece pastanın görünümünü iyileştirdik --- */
     body {
       margin: 0;
       padding: 0;
@@ -22,6 +21,7 @@
       overflow: hidden;
       position: relative;
     }
+
     .initial-message-container {
       background-color: rgba(255, 255, 255, 0.2);
       padding: 40px 60px;
@@ -36,17 +36,13 @@
       z-index: 2;
       position: relative;
     }
+
     .initial-message-container.hidden {
       opacity: 0;
       transform: translateY(-50px);
       pointer-events: none;
     }
-    .initial-message-container p {
-      font-size: 1.6em;
-      line-height: 1.6;
-      margin-bottom: 30px;
-      animation: fadeIn 2.5s ease-in-out;
-    }
+
     .start-button {
       padding: 18px 40px;
       font-size: 1.5em;
@@ -56,13 +52,9 @@
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.3s ease, transform 0.2s ease;
       margin-bottom: 30px;
     }
-    .start-button:hover {
-      background-color: #f0f4c3;
-      transform: translateY(-3px);
-    }
+
     .celebration-content {
       display: none;
       flex-direction: column;
@@ -73,11 +65,12 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1;
     }
+
     .celebration-content.visible {
       display: flex;
     }
+
     .blow-cake-button-top {
       padding: 15px 30px;
       font-size: 1.2em;
@@ -86,16 +79,10 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease, transform 0.2s ease;
       margin-bottom: 40px;
       z-index: 3;
-      animation: fadeIn 2s ease-in-out;
     }
-    .blow-cake-button-top:hover {
-      background-color: #fff8e1;
-      transform: translateY(-2px);
-    }
+
     h1 {
       font-family: 'Great Vibes', cursive;
       font-size: 4.5em;
@@ -108,10 +95,12 @@
       position: relative;
       z-index: 3;
     }
+
     h1.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
     .cake-container {
       position: relative;
       width: 250px;
@@ -125,14 +114,13 @@
       transform: translateY(50px);
       transition: opacity 1s ease-out, transform 1s ease-out;
       z-index: 1;
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
-      border-radius: 10px;
-      padding-top: 50px;
     }
+
     .cake-container.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
     .cake-layer {
       position: relative;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
@@ -143,21 +131,25 @@
       justify-content: center;
       align-items: center;
     }
+
     .cake-layer:nth-child(1) {
       width: 220px;
       height: 90px;
       background-color: #b56576;
     }
+
     .cake-layer:nth-child(2) {
       width: 170px;
       height: 70px;
       background-color: #ffb4a2;
     }
+
     .cake-layer:nth-child(3) {
       width: 120px;
       height: 50px;
       background-color: #fcd5ce;
     }
+
     .cake-layer:after {
       content: '';
       position: absolute;
@@ -170,9 +162,10 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 6;
     }
+
     .candle {
       position: absolute;
-      top: 15px;
+      top: -40px;
       left: 50%;
       transform: translateX(-50%);
       width: 8px;
@@ -182,9 +175,10 @@
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
       z-index: 7;
     }
+
     .flame {
       position: absolute;
-      top: -10px;
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
       width: 12px;
@@ -195,33 +189,31 @@
                   0 0 25px 12px rgba(255, 215, 0, 0.3);
       animation: flicker 0.2s infinite alternate;
     }
+
     .flame.off {
       opacity: 0;
       transition: opacity 0.3s ease-out;
     }
+
     .final-message {
       font-family: 'Great Vibes', cursive;
-      font-size: 4.0em;
-      line-height: 1.2;
+      font-size: 4em;
       color: #ffee93;
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
       opacity: 0;
       transform: scale(0.8);
       transition: opacity 1s ease-in, transform 1s ease-in;
       margin-top: 40px;
-      z-index: 2;
     }
+
     .final-message.visible {
       opacity: 1;
       transform: scale(1);
     }
+
     @keyframes flicker {
       0% { opacity: 1; transform: translateX(-50%) scale(1); }
       100% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -229,30 +221,30 @@
   <!-- Ses dosyaları -->
   <audio id="blowSound" src="https://www.soundjay.com/misc/sounds/blow-flame-1.mp3"></audio>
   <audio id="clapSound" src="https://www.soundjay.com/human/sounds/clap-5.mp3"></audio>
-  <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/05/23/audio_6f9b3a5fc8.mp3" autoplay loop></audio>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/05/23/audio_6f9b3a5fc8.mp3" loop></audio>
 
-  <!-- Açılış Mesajı -->
+  <!-- Başlangıç Mesajı -->
   <div class="initial-message-container" id="initialMessageContainer">
     <button class="start-button" onclick="startBirthdayCelebration()">Başlat (Buna Tıkla)</button>
     <p>Canım Ablam Aysel, Doğum Günün Kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
   </div>
 
-  <!-- Kutlama İçeriği -->
+  <!-- Kutlama Alanı -->
   <div class="celebration-content" id="celebrationContent">
-    <button class="blow-cake-button-top" id="blowCakeButtonTop" onclick="blowCandle()">Pastayı Üfle</button>
+    <button class="blow-cake-button-top" onclick="blowCandle()">Pastayı Üfle</button>
     <h1 id="ayseAblamTitle">Aysel Ablam</h1>
     <div class="cake-container" id="cakeContainer">
       <div class="cake-layer"></div>
       <div class="cake-layer"></div>
-      <div class="cake-layer"></div>
-      <div class="candle">
-        <div class="flame"></div>
+      <div class="cake-layer">
+        <div class="candle">
+          <div class="flame" id="flame"></div>
+        </div>
       </div>
     </div>
     <div class="final-message" id="finalMessage">Pastayı Üfledik, İyi ki Doğdun Aysel Ablam!</div>
   </div>
 
-  <!-- JavaScript -->
   <script>
     let hasBlown = false;
     const bgMusic = document.getElementById('bgMusic');
@@ -262,36 +254,30 @@
     function startBirthdayCelebration() {
       document.getElementById('initialMessageContainer').classList.add('hidden');
       document.getElementById('celebrationContent').classList.add('visible');
+      document.getElementById('ayseAblamTitle').classList.add('visible');
+      document.getElementById('cakeContainer').classList.add('visible');
 
-      setTimeout(() => {
-        document.getElementById('ayseAblamTitle').classList.add('visible');
-      }, 500);
-
-      setTimeout(() => {
-        document.getElementById('cakeContainer').classList.add('visible');
-      }, 1500);
+      // Müzik çal
+      bgMusic.play().catch(e => console.log("Müzik çalmadı:", e));
     }
 
     function blowCandle() {
       if (hasBlown) return;
       hasBlown = true;
 
-      const flame = document.querySelector('.flame');
-      const finalMessage = document.getElementById('finalMessage');
-
-      flame.classList.add('off');
+      document.getElementById('flame').classList.add('off');
       bgMusic.pause();
-      blowSound.play().catch(() => {});
+      blowSound.play();
 
       setTimeout(() => {
-        clapSound.play().catch(() => {});
-        finalMessage.classList.add('visible');
+        clapSound.play();
+        document.getElementById('finalMessage').classList.add('visible');
       }, 1000);
 
-      clapSound.onended = () => {
-        bgMusic.play().catch(() => {});
-      };
+      setTimeout(() => {
+        bgMusic.play();
+      }, 4000); // Alkış süresi yaklaşık 3-4 saniye
     }
   </script>
 </body>
-    </html>
+</html>
