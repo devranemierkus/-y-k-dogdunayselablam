@@ -140,7 +140,6 @@
             transform: translateY(50px);
             transition: opacity 1s ease-out, transform 1s ease-out;
             z-index: 1;
-            /* Pastanın kendi kutusuna gölge ekleyebiliriz */
             box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
             border-radius: 10px; /* Hafif yuvarlak köşeler */
             padding-top: 50px; /* Mum için üstte boşluk */
@@ -225,16 +224,16 @@
 
         .flame.off {
             opacity: 0;
-            transition: opacity 0.3s ease-out;
+            transition: opacity 0.3s ease-out; /* Mumun yumuşakça sönmesi için */
         }
 
         /* Final Mesajı */
         .final-message {
             font-family: 'Great Vibes', cursive;
-            font-size: 4.0em; /* Biraz küçülttük */
+            font-size: 4.0em; /* Okunaklı olması için */
             line-height: 1.2;
             color: #ffee93;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Gölgeyi artırarak okunurluğu artırdık */
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 1s ease-in, transform 1s ease-in;
@@ -365,13 +364,13 @@
 
             hasBlown = true; // Mumu üfledi olarak işaretle
 
-            blowSound.play(); // Üfleme sesini çal
+            blowSound.play().catch(e => console.error("Üfleme sesi çalarken hata:", e)); // Sesi çal ve hata yakala
 
             // Mumun sönme efekti (opacity ile yumuşak geçiş)
             flame.classList.add('off'); 
 
             setTimeout(() => {
-                clapSound.play(); // Alkış sesini çal
+                clapSound.play().catch(e => console.error("Alkış sesi çalarken hata:", e)); // Sesi çal ve hata yakala
                 finalMessage.classList.add('visible'); // İyi ki Doğdun mesajını göster
             }, 1000); // Üfleme sesinden 1 saniye sonra alkış ve mesaj
         }
