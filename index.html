@@ -22,131 +22,140 @@
             position: relative;
         }
 
-        .container {
+        .initial-message-container {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 40px 60px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
-            animation: fadeIn 2s ease-in-out;
             max-width: 800px;
             width: 90%;
-            margin-bottom: 30px;
-            z-index: 1;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 2; /* Diğer elementlerin üzerinde olması için */
+            position: relative;
         }
 
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4.5em;
-            margin-bottom: 20px;
-            color: #ffee93;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-            animation: slideInDown 1.5s ease-out;
+        .initial-message-container.hidden {
+            opacity: 0;
+            transform: translateY(-50px);
+            pointer-events: none; /* Gizlendiğinde tıklamayı engeller */
         }
 
-        p {
+        .initial-message-container p {
             font-size: 1.6em;
             line-height: 1.6;
             margin-bottom: 30px;
             animation: fadeIn 2.5s ease-in-out;
         }
 
-        .emoji {
-            font-size: 2.5em;
-            margin-top: 20px;
-            animation: bounce 1s infinite alternate;
+        .blow-button {
+            padding: 18px 40px;
+            font-size: 1.5em;
+            background-color: #ffee93;
+            color: #37474f;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 30px; /* Mesajın altına, pastanın üstüne boşluk */
+        }
+
+        .blow-button:hover {
+            background-color: #f0f4c3;
+            transform: translateY(-3px);
+        }
+
+        /* Tüm diğer içerikler (pasta, final mesajı vb.) başlangıçta gizli olacak */
+        .celebration-content {
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .celebration-content.visible {
+            display: flex; /* Gözükür olduğunda esnek kutu olarak göster */
         }
 
         .cake-container {
             position: relative;
-            width: 200px;
-            height: 150px;
-            background-color: #fdd835; /* Pasta rengi */
-            border-radius: 10px 10px 0 0;
+            width: 250px;
+            height: 200px;
+            background-color: #fdd835;
+            border-radius: 15px 15px 0 0;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: slideInUp 1.5s ease-out;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            z-index: 1;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding-bottom: 20px;
+        }
+
+        .cake-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .cake-layer {
             position: absolute;
             bottom: 0;
-            left: 10px;
-            width: calc(100% - 20px);
-            height: 50px;
-            background-color: #e65100; /* Pasta alt katmanı rengi */
-            border-radius: 5px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #e65100;
+            border-radius: 0 0 15px 15px;
         }
 
         .candle {
-            position: absolute;
-            top: -30px;
-            left: calc(50% - 5px); /* Ortalamak için */
-            width: 10px;
-            height: 40px;
-            background-color: #bdbdbd; /* Mum rengi */
-            border-radius: 5px 5px 0 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: relative;
+            width: 12px;
+            height: 50px;
+            background-color: #bdbdbd;
+            border-radius: 6px 6px 0 0;
+            margin-top: -60px;
+            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .flame {
-            width: 8px;
-            height: 15px;
-            background-color: #ffcdd2; /* Alev rengi */
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 20px;
+            background-color: #ffcdd2;
             border-radius: 50%;
-            margin-top: 5px;
             animation: flicker 0.3s infinite alternate;
+            box-shadow: 0 0 8px 3px rgba(255, 205, 92, 0.7);
         }
 
         .flame.off {
-            display: none; /* Mum söndüğünde alevi gizle */
+            display: none;
         }
 
-        .button-container {
-            animation: fadeIn 3s ease-in-out;
+        .final-message {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5em;
+            color: #ffee93;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 1s ease-in, transform 1s ease-in;
+            margin-top: 30px;
+            z-index: 2;
         }
 
-        .blow-button {
-            padding: 15px 30px;
-            font-size: 1.2em;
-            background-color: #ffee93; /* Tuş rengi */
-            color: #37474f; /* Tuş yazısı rengi */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
-
-        .blow-button:hover {
-            background-color: #f0f4c3;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInDown {
-            from { transform: translateY(-100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes slideInUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-15px); }
-        }
-
-        @keyframes flicker {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.1); }
+        .final-message.visible {
+            opacity: 1;
+            transform: scale(1);
         }
 
         /* Confetti efekti */
@@ -160,10 +169,10 @@
             animation: fall 5s linear infinite;
         }
 
-        .confetti:nth-child(2n) { background-color: #e91e63; /* Pembe */ }
-        .confetti:nth-child(3n) { background-color: #00bcd4; /* Mavi */ }
-        .confetti:nth-child(4n) { background-color: #4caf50; /* Yeşil */ }
-        .confetti:nth-child(5n) { background-color: #9c27b0; /* Mor */ }
+        .confetti:nth-child(2n) { background-color: #e91e63; }
+        .confetti:nth-child(3n) { background-color: #00bcd4; }
+        .confetti:nth-child(4n) { background-color: #4caf50; }
+        .confetti:nth-child(5n) { background-color: #9c27b0; }
 
         @keyframes fall {
             0% { transform: translateY(-15vh) rotate(0deg); opacity: 1; }
@@ -195,6 +204,9 @@
     </style>
 </head>
 <body>
+    <audio id="blowSound" src="https://www.soundjay.com/buttons/sounds/button-20.mp3" preload="auto"></audio>
+    <audio id="clapSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+
     <div class="confetti confetti-1"></div>
     <div class="confetti confetti-2"></div>
     <div class="confetti confetti-3"></div>
@@ -216,29 +228,62 @@
     <div class="confetti confetti-19"></div>
     <div class="confetti confetti-20"></div>
 
-    <div class="container">
-        <h1>Aysel Ablam</h1>
+    <div class="initial-message-container" id="initialMessageContainer">
+        <button class="blow-button" onclick="startBirthdayCelebration()">Pastayı Üfle (Buna Tıkla)</button>
         <p>Canım Ablam Aysel,<br>30 yaşın kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
-        <div class="emoji">🎂🎁🎈</div>
     </div>
 
-    <div class="cake-container">
-        <div class="cake-layer"></div>
-        <div class="candle">
-            <div class="flame"></div>
+    <div class="celebration-content" id="celebrationContent">
+        <h1 id="ayseAblamTitle" style="opacity: 0; transform: translateY(-50px); transition: opacity 1s ease-out, transform 1s ease-out;">Aysel Ablam</h1>
+        <div class="cake-container" id="cakeContainer">
+            <div class="cake-layer"></div>
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+        </div>
+        <div class="final-message" id="finalMessage">
+            İyi ki Doğdun Aysel Ablam!
         </div>
     </div>
 
-    <div class="button-container">
-        <button class="blow-button" onclick="blowCandle()">Pastayı Söndür</button>
-    </div>
-
     <script>
-        function blowCandle() {
+        function startBirthdayCelebration() {
+            const initialMessageContainer = document.getElementById('initialMessageContainer');
+            const celebrationContent = document.getElementById('celebrationContent');
+            const ayseAblamTitle = document.getElementById('ayseAblamTitle');
+            const cakeContainer = document.getElementById('cakeContainer');
             const flame = document.querySelector('.flame');
-            flame.classList.add('off'); // Alev elementine 'off' sınıfını ekleyerek gizler
-            // İsteğe bağlı olarak buraya mum söndüğünde çalacak bir ses efekti eklenebilir.
-            // Örneğin: new Audio('ses/mum_sondurme.mp3').play();
+            const finalMessage = document.getElementById('finalMessage');
+            const blowSound = document.getElementById('blowSound');
+            const clapSound = document.getElementById('clapSound');
+
+            // Başlangıç mesajını ve butonu gizle
+            initialMessageContainer.classList.add('hidden');
+
+            // Kutlama içeriğini görünür yap
+            celebrationContent.classList.add('visible');
+
+            // "Aysel Ablam" başlığını animasyonlu bir şekilde göster
+            setTimeout(() => {
+                ayseAblamTitle.style.opacity = '1';
+                ayseAblamTitle.style.transform = 'translateY(0)';
+            }, 500); // Yarım saniye sonra başlık gelsin
+
+            // Pastayı animasyonlu bir şekilde göster
+            setTimeout(() => {
+                cakeContainer.classList.add('visible');
+            }, 1500); // Başlıktan 1 saniye sonra pasta gelsin (toplam 1.5 sn)
+
+            // Mum üfleme, alkış ve son mesaj
+            setTimeout(() => {
+                blowSound.play(); // Üfleme sesini çal
+                flame.classList.add('off'); // Mumu söndür
+
+                setTimeout(() => {
+                    clapSound.play(); // Alkış sesini çal
+                    finalMessage.classList.add('visible'); // İyi ki Doğdun mesajını göster
+                }, 1000); // Üfleme sesinden 1 saniye sonra alkış ve mesaj
+            }, 4000); // Pastanın görünmesinden 2.5 saniye sonra (toplam 4 sn) mum üfleme başlasın
         }
     </script>
 </body>
