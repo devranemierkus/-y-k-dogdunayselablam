@@ -22,7 +22,7 @@
             position: relative;
         }
 
-        /* Başlangıç Mesajı ve Buton Konteyneri */
+        /* Başlangıç Mesajı ve Başlat Butonu Konteyneri */
         .initial-message-container {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 40px 60px;
@@ -51,7 +51,7 @@
             animation: fadeIn 2.5s ease-in-out;
         }
 
-        .start-button { /* Başlangıç butonu için isim değiştirdik karışmaması için */
+        .start-button {
             padding: 18px 40px;
             font-size: 1.5em;
             background-color: #ffee93;
@@ -75,12 +75,37 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 100vh; /* Tam ekran yüksekliği kaplaması için */
             width: 100%;
-            position: relative;
+            position: absolute; /* Üstteki öğe gizlenince yerine geçsin */
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .celebration-content.visible {
-            display: flex; /* Görünür olduğunda esnek kutu olarak göster */
+            display: flex;
+        }
+
+        /* En Üstteki "Pastayı Üfle" Butonu */
+        .blow-cake-button-top {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ffe082;
+            color: #37474f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 40px; /* Pastadan biraz boşluk */
+            z-index: 3;
+            animation: fadeIn 2s ease-in-out; /* Butonun belirme animasyonu */
+        }
+
+        .blow-cake-button-top:hover {
+            background-color: #fff8e1;
+            transform: translateY(-2px);
         }
 
         h1 {
@@ -93,7 +118,7 @@
             transform: translateY(-50px);
             transition: opacity 1s ease-out, transform 1s ease-out;
             position: relative;
-            z-index: 3; /* Pastanın üstünde olması için */
+            z-index: 3;
         }
 
         h1.visible {
@@ -101,57 +126,79 @@
             transform: translateY(0);
         }
 
-        /* Pasta ve Butonun bir arada olduğu ana konteyner */
-        .interactive-area {
-            display: flex;
-            align-items: center; /* Dikeyde hizalama */
-            justify-content: center; /* Yatayda hizalama */
-            width: 100%;
-            margin-top: 30px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        .interactive-area.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* Pasta Konteyneri */
         .cake-container {
             position: relative;
-            width: 250px; /* Pastanın toplam genişliği */
-            height: 250px; /* Pastanın toplam yüksekliği */
+            width: 250px;
+            height: 250px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end; /* Katmanları alttan yukarıya hizala */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-top: -30px; /* Üstteki butonla dikey hizayı ayarla */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            z-index: 1;
+            /* Pastanın kendi kutusuna gölge ekleyebiliriz */
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
             border-radius: 10px; /* Hafif yuvarlak köşeler */
-            margin: 0 20px; /* Butondan boşluk */
-            z-index: 1; /* Diğer elementlerden önde olması için */
+            padding-top: 50px; /* Mum için üstte boşluk */
+        }
+        .cake-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Kare Pasta Katmanları */
+        /* Pasta Katmanları (Silindir şeklinde) */
         .cake-layer {
             position: relative;
-            background-color: #ff91a4; /* Pasta rengi */
-            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px; /* Hafif yuvarlak köşeler */
-            margin-top: -10px; /* Üst üste binmeleri için negatif margin */
-            border: 2px solid #fff; /* Beyaz kenarlık */
+            background-color: #ff91a4; /* Orta ton pembe */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* İç gölge */
+            border-radius: 50% / 10%; /* Üst ve alt oval kısmı verir */
+            margin-top: -20px; /* Katmanları üst üste bindir */
+            border: 3px solid #fff; /* Beyaz kenarlık */
+            display: flex; /* İçine mum dikebilmek için */
+            justify-content: center;
+            align-items: center;
         }
-        .cake-layer:first-child { margin-top: 0; } /* En alttaki katmanda negatif margin olmasın */
+        .cake-layer:nth-child(1) { /* En alt katman */
+            width: 220px;
+            height: 90px;
+            background-color: #d88094; /* Koyu pembe */
+            z-index: 3;
+        }
+        .cake-layer:nth-child(2) { /* Orta katman */
+            width: 170px;
+            height: 70px;
+            background-color: #ff91a4; /* Orta pembe */
+            z-index: 4;
+        }
+        .cake-layer:nth-child(3) { /* En üst katman */
+            width: 120px;
+            height: 50px;
+            background-color: #a8dadc; /* Açık mavi */
+            z-index: 5;
+        }
+        /* Krema etkisi için :after pseudo-element */
+        .cake-layer:after {
+            content: '';
+            position: absolute;
+            top: -5px; /* Biraz yukarıda olsun */
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: #fff; /* Beyaz krema */
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 6;
+        }
 
-        .cake-layer:nth-child(1) { width: 200px; height: 80px; background-color: #d88094; } /* En alttaki katman */
-        .cake-layer:nth-child(2) { width: 150px; height: 70px; background-color: #ff91a4; } /* Orta katman */
-        .cake-layer:nth-child(3) { width: 100px; height: 60px; background-color: #a8dadc; } /* En üst katman */
 
         /* Mum */
         .candle {
             position: absolute;
-            top: -20px; /* Pastanın en üst katmanının üstünde */
+            top: 15px; /* En üst katmanın üstünde konumlandır */
             left: 50%;
             transform: translateX(-50%);
             width: 8px;
@@ -159,7 +206,7 @@
             background-color: #ff6e40; /* Mum rengi */
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            z-index: 20; /* Mumun en üstte olması için */
+            z-index: 7; /* Mumun en üstte olması için */
         }
 
         .flame {
@@ -181,30 +228,11 @@
             transition: opacity 0.3s ease-out;
         }
 
-        /* Pasta Üfle Butonu (Yan taraftaki) */
-        .blow-cake-button {
-            padding: 15px 25px;
-            font-size: 1.1em;
-            background-color: #ffe082; /* Farklı bir renk */
-            color: #37474f;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            position: relative;
-            z-index: 3; /* Başlık ve pastanın arasında olsun */
-        }
-
-        .blow-cake-button:hover {
-            background-color: #fff8e1;
-            transform: translateY(-2px);
-        }
-
         /* Final Mesajı */
         .final-message {
             font-family: 'Great Vibes', cursive;
-            font-size: 4.5em;
+            font-size: 4.0em; /* Biraz küçülttük */
+            line-height: 1.2;
             color: #ffee93;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             opacity: 0;
@@ -276,28 +304,26 @@
     <div class="confetti confetti-20"></div>
 
     <div class="initial-message-container" id="initialMessageContainer">
-        <button class="start-button" onclick="startBirthdayCelebration()">Pastayı Üfle (Buna Tıkla)</button>
-        <p>Canım Ablam Aysel,<br>30 yaşın kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
+        <button class="start-button" onclick="startBirthdayCelebration()">Başlat (Buna Tıkla)</button>
+        <p>Canım Ablam Aysel,<br>Kutlu olsun! Sağlık, mutluluk ve başarı hep seninle olsun. Seni çok seviyorum! 🎉❤️</p>
     </div>
 
     <div class="celebration-content" id="celebrationContent">
+        <button class="blow-cake-button-top" id="blowCakeButtonTop" onclick="blowCandle()">Pastayı Üfle</button>
+        
         <h1 id="ayseAblamTitle">Aysel Ablam</h1>
         
-        <div class="interactive-area" id="interactiveArea">
-            <div class="cake-container">
-                <div class="cake-layer"></div>
-                <div class="cake-layer"></div>
-                <div class="cake-layer"></div>
-                <div class="candle">
-                    <div class="flame"></div>
-                </div>
+        <div class="cake-container" id="cakeContainer">
+            <div class="cake-layer"></div>
+            <div class="cake-layer"></div>
+            <div class="cake-layer"></div>
+            <div class="candle">
+                <div class="flame"></div>
             </div>
-
-            <button class="blow-cake-button" onclick="blowCandle()">Pastayı Üfle</button>
         </div>
 
         <div class="final-message" id="finalMessage">
-            İyi ki Doğdun Aysel Ablam!
+            Pastayı Üfledik, İyi ki Doğdun Aysel Ablam!
         </div>
     </div>
 
@@ -308,7 +334,8 @@
             const initialMessageContainer = document.getElementById('initialMessageContainer');
             const celebrationContent = document.getElementById('celebrationContent');
             const ayseAblamTitle = document.getElementById('ayseAblamTitle');
-            const interactiveArea = document.getElementById('interactiveArea');
+            const cakeContainer = document.getElementById('cakeContainer');
+            const blowCakeButtonTop = document.getElementById('blowCakeButtonTop');
             
             // Başlangıç mesajını ve butonu gizle
             initialMessageContainer.classList.add('hidden');
@@ -321,10 +348,11 @@
                 ayseAblamTitle.classList.add('visible');
             }, 500); // Yarım saniye sonra başlık gelsin
 
-            // Pasta ve yanındaki butonu animasyonlu bir şekilde göster
+            // Pasta ve üstteki "Pastayı Üfle" butonunu animasyonlu bir şekilde göster
             setTimeout(() => {
-                interactiveArea.classList.add('visible');
-            }, 1500); // Başlıktan 1 saniye sonra interaktif alan gelsin (toplam 1.5 sn)
+                cakeContainer.classList.add('visible');
+                blowCakeButtonTop.style.display = 'block'; // Butonu görünür yap
+            }, 1500); // Başlıktan 1 saniye sonra pasta ve buton gelsin (toplam 1.5 sn)
         }
 
         function blowCandle() {
@@ -339,7 +367,7 @@
 
             blowSound.play(); // Üfleme sesini çal
 
-            // Mumun sönme efekti
+            // Mumun sönme efekti (opacity ile yumuşak geçiş)
             flame.classList.add('off'); 
 
             setTimeout(() => {
